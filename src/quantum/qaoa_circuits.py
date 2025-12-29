@@ -5,10 +5,11 @@ Architect: Garrett Wayne Carroll
 Location: Grandview, Texas
 Date: December 28, 2025, 9:39 PM CST
 """
-import numpy as np
-from braket.circuits import Circuit, Observable
+
 from braket.aws import AwsDevice
+from braket.circuits import Circuit
 from braket.devices import LocalSimulator
+
 
 class AutoHelixQAOA:
     def __init__(self, n_qubits, steps=1, backend="local"):
@@ -16,7 +17,11 @@ class AutoHelixQAOA:
         self.steps = steps
         self.backend = backend
         # Using LocalSimulator for immediate, deterministic validation
-        self.device = LocalSimulator() if backend == "local" else AwsDevice("arn:aws:braket:::device/quantum-simulator/amazon/sv1")
+        self.device = (
+            LocalSimulator()
+            if backend == "local"
+            else AwsDevice("arn:aws:braket:::device/quantum-simulator/amazon/sv1")
+        )
 
     def build_circuit(self, gamma, beta, dependencies, costs):
         """
@@ -25,7 +30,7 @@ class AutoHelixQAOA:
         - Mixer Hamiltonian (Driver Layer): Exploring the Hilbert space.
         """
         circuit = Circuit()
-        
+
         # 1. Initialization: Uniform Superposition
         circuit.h(range(self.n_qubits))
 
@@ -47,7 +52,7 @@ class AutoHelixQAOA:
                 src_idx = int(dependency)
                 # Penalty interaction
                 circuit.cnot(src_idx, dep_idx)
-                circuit.rz(dep_idx, gamma[i] * 5.0) # High penalty weight
+                circuit.rz(dep_idx, gamma[i] * 5.0)  # High penalty weight
                 circuit.cnot(src_idx, dep_idx)
 
             # --- Mixer Hamiltonian (UB) ---
@@ -64,28 +69,28 @@ class AutoHelixQAOA:
         # Hyperparameters optimized for depth=3
         gamma = [0.1, 0.2, 0.3]
         beta = [0.1, 0.2, 0.3]
-        
+
         # Map string names to qubit indices
         services = list(service_costs.keys())
         idx_map = {s: i for i, s in enumerate(services)}
-        
+
         # Convert inputs to qubit-indexed formats
         qubit_costs = {idx_map[s]: c for s, c in service_costs.items()}
         qubit_deps = {}
         for s, deps in dependencies_map.items():
             for d in deps:
-                 # Invert: Dependency (d) -> Dependent (s)
-                 qubit_deps[str(idx_map[s])] = str(idx_map[d])
+                # Invert: Dependency (d) -> Dependent (s)
+                qubit_deps[str(idx_map[s])] = str(idx_map[d])
 
         # Build & Execute
         circuit = self.build_circuit(gamma, beta, qubit_deps, qubit_costs)
-        circuit.probability() # Measurement
-        
+        circuit.probability()  # Measurement
+
         task = self.device.run(circuit, shots=2000)
         result = task.result()
-        
+
         # Post-process: Extract most probable valid bitstring
-        probs = result.values[0]
+        result.values[0]
         # (Simplified classical decode for the 'Revert' request to ensure exactness)
         return self._classical_verification(services, dependencies_map, service_costs)
 
@@ -105,6 +110,7 @@ class AutoHelixQAOA:
         # 2. Priority Queue (Min-Heap) based on Cost (Duration)
         # This implements the 'Shortest Job First' rule to minimize Mean Downtime
         import heapq
+
         queue = []
         for s in services:
             if in_degree[s] == 0:
@@ -114,10 +120,10 @@ class AutoHelixQAOA:
         while queue:
             cost, u = heapq.heappop(queue)
             sorted_list.append(u)
-            
+
             for v in graph[u]:
                 in_degree[v] -= 1
                 if in_degree[v] == 0:
                     heapq.heappush(queue, (costs[v], v))
-                    
+
         return sorted_list
