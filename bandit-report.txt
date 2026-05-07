@@ -1,10 +1,10 @@
-Run started:2026-01-01 17:45:57.054745+00:00
+Run started:2026-05-07 20:55:50.910781+00:00
 
 Test results:
 >> Issue: [B104:hardcoded_bind_all_interfaces] Possible binding to all interfaces.
    Severity: Medium   Confidence: Medium
    CWE: CWE-605 (https://cwe.mitre.org/data/definitions/605.html)
-   More Info: https://bandit.readthedocs.io/en/1.9.2/plugins/b104_hardcoded_bind_all_interfaces.html
+   More Info: https://bandit.readthedocs.io/en/1.9.4/plugins/b104_hardcoded_bind_all_interfaces.html
    Location: ./src/api/main.py:73:26
 72	
 73	    uvicorn.run(app, host="0.0.0.0", port=8000)
@@ -13,7 +13,7 @@ Test results:
 >> Issue: [B311:blacklist] Standard pseudo-random generators are not suitable for security/cryptographic purposes.
    Severity: Low   Confidence: High
    CWE: CWE-330 (https://cwe.mitre.org/data/definitions/330.html)
-   More Info: https://bandit.readthedocs.io/en/1.9.2/blacklists/blacklist_calls.html#b311-random
+   More Info: https://bandit.readthedocs.io/en/1.9.4/blacklists/blacklist_calls.html#b311-random
    Location: ./src/streaming/telemetry_producer.py:25:18
 24	        """Emit a single structured log event following NWU schema."""
 25	        service = random.choice(self.services)
@@ -23,7 +23,7 @@ Test results:
 >> Issue: [B311:blacklist] Standard pseudo-random generators are not suitable for security/cryptographic purposes.
    Severity: Low   Confidence: High
    CWE: CWE-330 (https://cwe.mitre.org/data/definitions/330.html)
-   More Info: https://bandit.readthedocs.io/en/1.9.2/blacklists/blacklist_calls.html#b311-random
+   More Info: https://bandit.readthedocs.io/en/1.9.4/blacklists/blacklist_calls.html#b311-random
    Location: ./src/streaming/telemetry_producer.py:26:21
 25	        service = random.choice(self.services)
 26	        event_type = random.choice(
@@ -35,7 +35,7 @@ Test results:
 >> Issue: [B311:blacklist] Standard pseudo-random generators are not suitable for security/cryptographic purposes.
    Severity: Low   Confidence: High
    CWE: CWE-330 (https://cwe.mitre.org/data/definitions/330.html)
-   More Info: https://bandit.readthedocs.io/en/1.9.2/blacklists/blacklist_calls.html#b311-random
+   More Info: https://bandit.readthedocs.io/en/1.9.4/blacklists/blacklist_calls.html#b311-random
    Location: ./src/streaming/telemetry_producer.py:35:22
 34	            "source_system": service,
 35	            "region": random.choice(self.regions),
@@ -45,7 +45,7 @@ Test results:
 >> Issue: [B311:blacklist] Standard pseudo-random generators are not suitable for security/cryptographic purposes.
    Severity: Low   Confidence: High
    CWE: CWE-330 (https://cwe.mitre.org/data/definitions/330.html)
-   More Info: https://bandit.readthedocs.io/en/1.9.2/blacklists/blacklist_calls.html#b311-random
+   More Info: https://bandit.readthedocs.io/en/1.9.4/blacklists/blacklist_calls.html#b311-random
    Location: ./src/streaming/telemetry_producer.py:44:47
 43	            event["dependencies"] = self._get_dependencies(service)
 44	            event["estimated_downtime_cost"] = random.uniform(1000.0, 50000.0)
@@ -55,7 +55,7 @@ Test results:
 >> Issue: [B311:blacklist] Standard pseudo-random generators are not suitable for security/cryptographic purposes.
    Severity: Low   Confidence: High
    CWE: CWE-330 (https://cwe.mitre.org/data/definitions/330.html)
-   More Info: https://bandit.readthedocs.io/en/1.9.2/blacklists/blacklist_calls.html#b311-random
+   More Info: https://bandit.readthedocs.io/en/1.9.4/blacklists/blacklist_calls.html#b311-random
    Location: ./src/streaming/telemetry_producer.py:47:45
 46	        elif event_type == "LIQUIDITY_TRANSFER":
 47	            event["liquidity_score"] = round(random.uniform(0.1, 1.0), 2)
@@ -65,7 +65,7 @@ Test results:
 >> Issue: [B311:blacklist] Standard pseudo-random generators are not suitable for security/cryptographic purposes.
    Severity: Low   Confidence: High
    CWE: CWE-330 (https://cwe.mitre.org/data/definitions/330.html)
-   More Info: https://bandit.readthedocs.io/en/1.9.2/blacklists/blacklist_calls.html#b311-random
+   More Info: https://bandit.readthedocs.io/en/1.9.4/blacklists/blacklist_calls.html#b311-random
    Location: ./src/streaming/telemetry_producer.py:48:45
 47	            event["liquidity_score"] = round(random.uniform(0.1, 1.0), 2)
 48	            event["asset_value_usd"] = round(random.uniform(10.0, 500.0), 2)
@@ -75,7 +75,7 @@ Test results:
 >> Issue: [B311:blacklist] Standard pseudo-random generators are not suitable for security/cryptographic purposes.
    Severity: Low   Confidence: High
    CWE: CWE-330 (https://cwe.mitre.org/data/definitions/330.html)
-   More Info: https://bandit.readthedocs.io/en/1.9.2/blacklists/blacklist_calls.html#b311-random
+   More Info: https://bandit.readthedocs.io/en/1.9.4/blacklists/blacklist_calls.html#b311-random
    Location: ./src/streaming/telemetry_producer.py:49:35
 48	            event["asset_value_usd"] = round(random.uniform(10.0, 500.0), 2)
 49	            event["reuse_count"] = random.randint(1, 100)
